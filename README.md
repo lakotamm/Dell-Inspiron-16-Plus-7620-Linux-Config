@@ -1,5 +1,4 @@
-#Dell Inspiron-16 Plus 7620 Linux Config
-Here are configuration files for my Dell Inspiron 16 Plus 7620 running Linux
+Here are configuration files for my Dell Inspiron 16 Plus 7620 running Linux Fedora.
 
 My use case: 
 I dual boot Linux and Windows. I use Linux for majority of my tasks and free time and Windows for occasional gaming. Therefore when I am using Linux, I mostly need a long lasting and quiet device which does not get very warm. The configuration files reflect this use case. In the future I might create additional branches for different use cases.
