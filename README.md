@@ -9,8 +9,8 @@ About the device:
 - Host: Inspiron 16 Plus 7620 
 - Kernel: 5.18.16-200.fc36.x86_64 
 - DE: GNOME 42.3.1 
-- CPU: 12th Gen Intel i7-12700H (20) @ 4 
-- GPU: NVIDIA GeForce RTX 3060 Mobile /  
+- CPU: 12th Gen Intel i7-12700H (20) @ 4.600GHz
+- GPU: NVIDIA GeForce RTX 3060 Mobile / Max-Q 
 - GPU: Intel Alder Lake-P 
 - Memory: 15677MiB 
 
