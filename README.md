@@ -15,8 +15,12 @@ About the device:
 - Memory: 15677MiB 
 
 Programs for controling performance and consumption:
-- TLP - https://linrunner.de/tlp/index.html
-- Throttled - https://github.com/erpalma/throttled
+- TLP - https://linrunner.de/tlp/index.html (requires masking of power-profiles-daemon.servicepower-profiles-daemon.service)
+- Throttled - https://github.com/erpalma/throttled (as of 10.8.2022 the latest GIT version is necessary to control AlderLake CPUs)
+
+Further Linux configuration:
+- Using default Nouveau Nvidia GPU (as of 10.8.2022 while writing this it has better power management than the Nvidia driver)
+- Bluetooth disabled on startup by replacing AutoEnable=true with AutoEnable=false in /etc/bluetooth/main.conf
 
 BIOS configuration:
 - SATA Mode: AHCI (very important for power consumption!)
