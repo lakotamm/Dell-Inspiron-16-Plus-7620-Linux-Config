@@ -26,3 +26,6 @@ BIOS configuration:
 - SATA Mode: AHCI (very important for power consumption!)
 - Fans/performance mode: Quiet
 - Battery max charge: 75%, starts charging at 70%
+
+Speaker fix:
+By default only 2 ot of 4 speaker work. This is due to unsuitable default pin output and amplifier configuration.  With a great help from Philipp Jungkamp we created a kernel patch to fix this issue. The patch builds with kernels 5.19.2 and higher. As of 19.08.2020 we are finishing testing the patch and will commit it soon. We expect that the patch will be merged in kernel 6.1.
