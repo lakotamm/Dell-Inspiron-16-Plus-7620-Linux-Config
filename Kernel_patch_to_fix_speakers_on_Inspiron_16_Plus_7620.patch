@@ -1,0 +1,92 @@
+From 6f91aba8189a0b04fd977d218321e89df7e0673e Mon Sep 17 00:00:00 2001
+From: Philipp Jungkamp <p.jungkamp@gmx.net>
+Date: Mon, 15 Aug 2022 11:17:21 +0200
+Subject: [PATCH] ALSA: patch_realtek: Fix Dell Inspiron Plus 16
+
+---
+ sound/pci/hda/patch_realtek.c | 48 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index fd630d62b5a0..9b0b4ddcc36d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6854,6 +6854,46 @@ static void alc287_fixup_yoga9_14iap7_bass_spk_pin(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc295_fixup_dell_inspiron_top_speakers(struct hda_codec *codec,
++					  const struct hda_fixup *fix, int action)
++{
++	/*
++	 * The Pin Complex 0x17 for the top speakers is wrongly reported as
++	 * unconnected.
++	 * The top speakers should also have a sequence number lower than
++	 * the bottom speakers on NID 0x14.
++	 */
++	static const struct hda_pintbl pincfgs[] = {
++		{ 0x14, 0x90170151 },
++		{ 0x17, 0x90170150 },
++		{ }
++	};
++	/*
++	 * Avoid DAC 0x06 and 0x08, as they have no volume controls.
++	 * DAC 0x02 and 0x03 would be fine.
++	 */
++	static const hda_nid_t conn[] = { 0x02, 0x03 };
++	/*
++	 * Prefer both bottom speakers (0x14) and headphones (0x21) connected to DAC 0x02.
++	 * Top speakers (0x21) are connected to DAC 0x03.
++	 */
++	static const hda_nid_t preferred_pairs[] = {
++		0x14, 0x02,
++		0x17, 0x03,
++		0x21, 0x02,
++		0
++	};
++	struct alc_spec *spec = codec->spec;
++
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
++		snd_hda_apply_pincfgs(codec, pincfgs);
++		snd_hda_override_conn_list(codec, 0x17, ARRAY_SIZE(conn), conn);
++		spec->gen.preferred_dacs = preferred_pairs;
++		break;
++	}
++}
++
+ enum {
+ 	ALC269_FIXUP_GPIO2,
+ 	ALC269_FIXUP_SONY_VAIO,
+@@ -7094,6 +7134,7 @@ enum {
+ 	ALC287_FIXUP_LEGION_16ITHG6,
+ 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK,
+ 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN,
++	ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -9017,6 +9058,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK,
+ 	},
++	[ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc295_fixup_dell_inspiron_top_speakers,
++		.chained = true,
++		.chain_id = ALC269_FIXUP_DELL4_MIC_NO_PRESENCE,
++	},
+ };
+ 
+ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -9116,6 +9163,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1028, 0x0a9d, "Dell Latitude 5430", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x0a9e, "Dell Latitude 5430", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x0b19, "Dell XPS 15 9520", ALC289_FIXUP_DUAL_SPK),
++	SND_PCI_QUIRK(0x1028, 0x0b71, "Dell Inspiron 16 Plus 7620", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1028, 0x164a, "Dell", ALC293_FIXUP_DELL1_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x164b, "Dell", ALC293_FIXUP_DELL1_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x1586, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC2),
+-- 
+2.37.2
+
