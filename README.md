@@ -28,5 +28,5 @@ BIOS configuration:
 - Battery max charge: 75%, starts charging at 70%
 
 Speaker fix:
-- By default only the bottom speakers work. This is due to unsuitable default pin output and amplifier configuration.  With a great help from Philipp Jungkamp we created (a kernel patch to fix this issue)[Kernel_patch_to_fix_speakers_on_Inspiron_16_Plus_7620.patch]. The patch has been tested to build with kernels 5.19.2, 6.0 and higher. As of 19.08.2020 we are finishing testing the patch and will commit it soon. We expect that the patch will be merged in kernel 6.1.
+- By default only the bottom speakers work. This is due to unsuitable default pin output and amplifier configuration.  With a great help from Philipp Jungkamp we created a kernel patch to fix this issue. The patch has been tested to build with kernels 5.19.2, 6.0 and higher. As of 19.08.2020 we are finishing testing the patch and will commit it soon. We expect that the patch will be merged in kernel 6.1.
 - Even with the patch the top speakers start playing sound with a ~0,5 second delay after the bottom speakers.
