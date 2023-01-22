@@ -28,6 +28,8 @@ BIOS configuration:
 - Battery max charge: 75%, starts charging at 70%
 
 Speaker fix:
+EDIT: UPDATE 22.1.2023 - the speaker fix has been implemented in kernel 6.2RC2 and it has been backported to 5.10, 6.0 and 6.1
+
 - By default only the bottom speakers work. This is due to unsuitable default pin output and amplifier configuration.  With a great help from Philipp Jungkamp we created a kernel patch to fix this issue. The patch has been tested to build with kernels 5.19.2, 6.0 and higher.
 The patch is expected to land in kernel 6.2.
 https://github.com/tiwai/sound/commit/2912cdda734d9136615ed05636d9fcbca2a7a3c5
